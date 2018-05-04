@@ -1,0 +1,146 @@
+<html>
+
+<head>
+
+    <title>Personal-Manager</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="./content/mdb.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <!--Navbar-->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark primary-color">
+
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="#">Personal-Manager</a>
+
+            <!-- Collapse button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="basicExampleNav">
+
+                <!-- Links -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Timesheet
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- Links -->
+            </div>
+            <!-- Collapsible content -->
+
+        </nav>
+        <!--/.Navbar-->
+    </header>
+
+    <section>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Editable table -->
+                    <div class="card">
+                        <h3 class="card-header text-center font-weight-bold text-uppercase">Timesheet</h3>
+                        <div class="card-body pt-5">
+                            <div id="table" class="table-editable">
+                                    <div class="md-form float-left mb-3 ml-2">
+                                            <input placeholder="Date.." type="text" id="select-date" class="form-control datepicker">
+                                            <label>Selected Date..</label>
+                                        </div>
+
+                                <span class="table-add float-right mb-3 mr-2">
+                                    <a href="#!" class="text-success">
+                                        <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                                <table class="table table-bordered table-responsive-md table-striped text-center">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Id</th>
+                                            <th class="text-center">Task</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Comments</th>
+                                            <th class="text-center">Date</th>
+                                            <th class="text-center">Application</th>
+                                            <th class="text-center">Time_Hrs</th>
+                                            <th class="text-center">Sort</th>
+                                            <th class="text-center">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="timesheetdata">
+                                        
+                                    </tbody>
+                                </table>
+                                <button type="button" class="btn btn-info float-right">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Editable table -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="./scripts/mdb.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase-firestore.js"></script>
+
+    <script type="text/x-handlebars-template" id="timesheetdatatemplate">
+        {{#each this}}
+        <tr id={{Key}}>
+                <td class="pt-3-half">{{Id}}</td>
+                <td class="pt-3-half" contenteditable="true">{{Task}}</td>
+                <td class="pt-3-half" contenteditable="true">{{Status}}</td>
+                <td class="pt-3-half" contenteditable="true">{{Comments}}</td>
+                <td class="pt-3-half">{{Date}}</td>
+                <td class="pt-3-half" contenteditable="true">{{Application}}</td>
+                <td class="pt-3-half" contenteditable="true">{{Time_Hrs}}</td>
+                <td class="pt-3-half">
+                    <span class="table-up">
+                        <a href="#!" class="indigo-text">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                    <span class="table-down">
+                        <a href="#!" class="indigo-text">
+                            <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                </td>
+                <td>
+                    <span class="table-remove">
+                        <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">Remove</button>
+                    </span>
+                </td>
+            </tr>
+            {{/each}}
+    </script>
+    
+    <script type="text/javascript" src="./scripts/script.js"></script>
+    </script>
+</body>
+
+</html>
