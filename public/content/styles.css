@@ -1,0 +1,25 @@
+table.dataTable.no-footer, table.dataTable thead th, table.dataTable thead td {
+    border: none;
+}
+
+.dataTables_filter label {
+    margin: 0;
+}
+
+.dataTables_filter input[type=search] {
+    height: 1rem;
+}
+
+.dataTables_filter .form-control {
+    margin-top: 0.1rem;
+    margin-bottom: 0.4rem;
+}
+
+.table-fixed {
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+.datesize{
+    width: 90px;
+}
