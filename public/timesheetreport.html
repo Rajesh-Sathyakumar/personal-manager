@@ -21,7 +21,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark primary-color">
 
             <!-- Navbar brand -->
-            <a class="navbar-brand" href="#">Personal-Manager</a>
+            <a class="navbar-brand" href="index.html">Personal-Manager</a>
 
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
@@ -56,16 +56,25 @@
 
         <div class="container mt-4">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-lg-12">
                     <!-- Editable table -->
                     <div class="card">
                         <h3 class="card-header text-center font-weight-bold text-uppercase">Timesheet Report</h3>
                         <div class="card-body pt-5">
-                                <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                            <div id="projectTasks" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                            <div id="projectHours" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+                                    </div>
+                                </div>
+                                
                         </div>
                     </div>
                     <!-- Editable table -->
                 </div>
+
             </div>
         </div>
     </section>

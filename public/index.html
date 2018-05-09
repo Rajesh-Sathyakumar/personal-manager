@@ -21,7 +21,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark primary-color">
 
             <!-- Navbar brand -->
-            <a class="navbar-brand" href="#">Personal-Manager</a>
+            <a class="navbar-brand" href="index.html">Personal-Manager</a>
 
             <!-- Collapse button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
@@ -117,7 +117,7 @@
 
     <script type="text/x-handlebars-template" id="timesheetdatatemplate">
             {{#each this}}
-                <tr id={{Key}}>
+                <tr>
                     <td class="pt-3-half" contenteditable="true">{{Task}}</td>
                     <td class="pt-3-half" contenteditable="true">{{Status}}</td>
                     <td class="pt-3-half" contenteditable="true">{{Comments}}</td>
@@ -125,7 +125,7 @@
                     <td class="pt-3-half" contenteditable="true">{{Time_Hrs}}</td>
                     <td class="pt-3-half">
                         <span class="table-remove">
-                            <button type="button" class="btn btn-danger btn-sm my-0 removeTimesheet">Remove</button>
+                            <button type="button" class="btn btn-danger btn-sm my-0 deleteTimeSheet">Remove</button>
                         </span>
                     </td>
                 </tr>

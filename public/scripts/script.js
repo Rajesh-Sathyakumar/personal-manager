@@ -28,35 +28,29 @@ $('#select-date').on('change', function () {
           let html = template(timesheetdata);
           $('#timesheetdata').html(html);
 
-          // $('.updateTimeSheet').on('click', function () {
-          //   cur = {};
-          //   let row = $(this).closest('tr');
-          //   let id = row.attr('id');
-          //   cur['Date'] = date;
-          //   row.find("td").each(function (i, v) {
-          //     if( i < 5 )
-          //     cur[heads[i]] = $(this).text().trim();
-          //   });
-          //   baseCollection.doc(id).set(cur).then(function () {
-          //     console.log("Document successfully written!");
-          //   });
-          // });
-
-          // $('.deleteTimeSheet').on('click', function () {
-          //   cur = {};
-          //   let row = $(this).closest('tr');
-          //   let id = row.attr('id');
-
-          //   baseCollection.doc(id).delete().then(function () {
-          //     $('#select-date').trigger('change');
-          //   });
-          // });
+          $('.deleteTimeSheet').on('click', deleteTimeSheet);
         }
         else {
           timesheetTable.clear().draw();
         }
-    });
-    
+      });
+
+});
+
+let $input = $('.datepicker').pickadate({
+  // Escape any “rule” characters with an exclamation mark (!).
+  format: 'd-m-yyyy',
+  formatSubmit: 'd-m-yyyy'
+});
+
+let picker = $input.pickadate('picker');
+
+$input.pickadate("picker").set("select", (new Date()).valueOf());
+
+picker.on({
+  close: function () {
+    $(document.activeElement).blur();
+  },
 });
 
 
@@ -71,28 +65,54 @@ let timesheetTable = $('#timesheettable').DataTable({
   }
 });
 
-let $input = $('.datepicker').pickadate({
-  // Escape any “rule” characters with an exclamation mark (!).
-  format: 'd/m/yyyy',
-  formatSubmit: 'd/m/yyyy'
-});
-
-let picker = $input.pickadate('picker');
-
-$input.pickadate("picker").set("select", (new Date()).valueOf());
-
-picker.on({
-  close: function () {
-    $(document.activeElement).blur();
-  },
-});
 
 let heads = ["Task", "Status", "Comments", "Application", "Time_Hrs"];
 
-$('#addTimesheet').on('click',function(){
+$('#addTimesheet').on('click', function () {
+  let source = document.getElementById("timesheetdatatemplate").innerHTML;
+  let template = Handlebars.compile(source);
+  let html = template([{}]);
+  if ($('#timesheetdata').text().trim() === "No Data to display") {
+    $('#timesheetdata').html(html);
+  }
+  else {
+    $('#timesheetdata').append(html);
+  }
+
+  $('.deleteTimeSheet').on('click', deleteTimeSheet);
+
+});
+
+function deleteTimeSheet() {
+  let row = $(this).closest('tr');
+  row.remove();
+  if ($('#timesheetdata').text().trim() === "") {
+    timesheetTable.clear().draw();
+  }
+}
+
+$('#saveTimeSheet').on('click', function () {
   let date = $('#select-date').val();
-  baseCollection.add({Date: date}).then(function(doc){
-    console.log(doc.id);
-    $('#select-date').trigger('change');
+  let data = {};
+  let heads = ['Task', 'Status',	'Comments',	'Application',	'Time_Hrs'];
+  $('#timesheetdata tr').each(function(index,value){
+    let cur = {};
+    let row = value.getElementsByTagName('td');
+   
+    if($('#timesheetdata').text().trim() !== "No Data to display"){
+      data[date] = [];
+      for(let i=0; i< row.length; i++){
+        if(i < 5){
+          let data = row[i].innerText.trim();
+          if(data !== "")
+          cur[heads[i]] = data;
+        }
+      }
+      data[date].push(cur);
+    }else{
+      data[date] = firebase.firestore.FieldValue.delete();
+    }
   });
+
+  baseDocument.update(data);
 });
