@@ -27,6 +27,9 @@ $('#select-date').on('change', function () {
           let template = Handlebars.compile(source);
           let html = template(timesheetdata);
           $('#timesheetdata').html(html);
+         
+          $('.mdb-select').material_select('destroy');
+          $('.mdb-select').material_select();        
 
           $('.deleteTimeSheet').on('click', deleteTimeSheet);
         }
@@ -54,6 +57,7 @@ picker.on({
 });
 
 
+
 let timesheetTable = $('#timesheettable').DataTable({
   'searching': false,
   'ordering': false,
@@ -64,7 +68,6 @@ let timesheetTable = $('#timesheettable').DataTable({
     'sEmptyTable': "<center><b>No Data to display</b></center>"
   }
 });
-
 
 let heads = ["Task", "Status", "Comments", "Application", "Time_Hrs"];
 
@@ -78,6 +81,9 @@ $('#addTimesheet').on('click', function () {
   else {
     $('#timesheetdata').append(html);
   }
+
+  $('.mdb-select').material_select('destroy');
+  $('.mdb-select').material_select();
 
   $('.deleteTimeSheet').on('click', deleteTimeSheet);
 
@@ -94,25 +100,34 @@ function deleteTimeSheet() {
 $('#saveTimeSheet').on('click', function () {
   let date = $('#select-date').val();
   let data = {};
-  let heads = ['Task', 'Status',	'Comments',	'Application',	'Time_Hrs'];
-  $('#timesheetdata tr').each(function(index,value){
+  let heads = ['Task', 'Status', 'Comments', 'Application', 'Time_Hrs'];
+  $('#timesheetdata tr').each(function (index, value) {
     let cur = {};
     let row = value.getElementsByTagName('td');
-   
-    if($('#timesheetdata').text().trim() !== "No Data to display"){
+
+    if ($('#timesheetdata').text().trim() !== "No Data to display") {
       data[date] = [];
-      for(let i=0; i< row.length; i++){
-        if(i < 5){
-          let data = row[i].innerText.trim();
-          if(data !== "")
+      for (let i = 0; i < row.length; i++) {
+        if(i === 1 || i === 3){
+          let data = $(this).find('select').val();
           cur[heads[i]] = data;
+        }
+        else if (i < 5) {
+          let data = row[i].innerText.trim();
+          if (data !== "")
+            cur[heads[i]] = data;
         }
       }
       data[date].push(cur);
-    }else{
+    } else {
       data[date] = firebase.firestore.FieldValue.delete();
     }
   });
 
   baseDocument.update(data);
 });
+
+Handlebars.registerHelper('compare',function(a,b){
+  if(a === b)
+  return "selected";
+})

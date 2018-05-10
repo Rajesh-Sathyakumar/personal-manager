@@ -95,7 +95,7 @@ function renderGraphs(doc) {
                     },
                     connectorColor: 'silver'
                 },
-                size: 170
+                size: 220
             }
         },
         series: [{
@@ -133,7 +133,7 @@ function renderGraphs(doc) {
                     },
                     connectorColor: 'silver'
                 },
-                size: 170
+                size: 220
             }
         },
         series: [{

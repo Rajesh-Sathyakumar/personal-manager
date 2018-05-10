@@ -1,6 +1,13 @@
+<!doctype html>
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="personal-manager" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 
     <title>Personal-Manager</title>
     <!-- Font Awesome -->
@@ -10,8 +17,8 @@
     <!-- Material Design Bootstrap -->
     <link href="./content/mdb.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
-    <link rel="stylesheet" type="text/css" href="./content/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css" />
+    <link rel="stylesheet" type="text/css" href="./content/styles.css" />
 
 </head>
 
@@ -72,7 +79,7 @@
                                         <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                                     </a>
                                 </span>
-                                <table class="table table-bordered table-fixed table-responsive-md table-striped text-center" id="timesheettable">
+                                <table class="table table-bordered table-fixed table-striped text-center" id="timesheettable">
                                     <thead>
                                         <tr>
                                             <th class="text-center">Task</th>
@@ -87,7 +94,8 @@
 
                                     </tbody>
                                 </table>
-                                <br/> <hr/>
+                                <br/>
+                                <hr/>
                                 <button type="button" class="btn btn-info float-right btn-sm my-0" id="saveTimeSheet">Save Changes</button>
                             </div>
                         </div>
@@ -119,9 +127,26 @@
             {{#each this}}
                 <tr>
                     <td class="pt-3-half" contenteditable="true">{{Task}}</td>
-                    <td class="pt-3-half" contenteditable="true">{{Status}}</td>
+                    <td class="pt-3-half">
+                        <select class="mdb-select colorful-select dropdown-primary">
+                            <option value="Done" {{{compare Status "Done"}}}>Done</option>
+                            <option value="Pending" {{{compare Status "Pending"}}}>Pending</option>
+                            <option value="Not Required" {{{compare Status "Not Required"}}}>Not Required</option>
+                            <option value="Invalid" {{{compare Status "Invalid"}}}>Invalid</option>
+                        </select>
+                    </td>
                     <td class="pt-3-half" contenteditable="true">{{Comments}}</td>
-                    <td class="pt-3-half" contenteditable="true">{{Application}}</td>
+                    <td class="pt-3-half">  
+                        <select class="mdb-select colorful-select dropdown-primary">
+                            <option value="Manager App" {{{compare Application "Manager App"}}}>Manager App</option>
+                            <option value="Bayti Admin Web" {{{compare Application "Bayti Admin Web"}}}>Bayti Admin Web</option>
+                            <option value="National Registry" {{{compare Application "National Registry"}}}>National Registry</option>
+                            <option value="Migration Console App" {{{compare Application "Migration Console App"}}}>Migration Console App</option>
+                            <option value="Personal Manager" {{{compare Application "Personal Manager"}}}>Personal Manager</option>
+                            <option value="Firebase Tuts" {{{compare Application "Firebase Tuts"}}}>Firebase Tuts</option>
+                            <option value="Infrastructure" {{{compare Application "Infrastructure"}}}>Infrastructure</option>
+                        </select>
+                </td>
                     <td class="pt-3-half" contenteditable="true">{{Time_Hrs}}</td>
                     <td class="pt-3-half">
                         <span class="table-remove">
