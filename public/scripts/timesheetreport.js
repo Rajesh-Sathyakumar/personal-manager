@@ -1,29 +1,31 @@
 // Initialize Firebase
-let config = {
-    apiKey: "AIzaSyCKSZ81yCPIE7Tn6PUZ6X93zgKThn5TmIs",
-    authDomain: "cogentec-personal.firebaseapp.com",
-    databaseURL: "https://cogentec-personal.firebaseio.com",
-    projectId: "cogentec-personal",
-    storageBucket: "cogentec-personal.appspot.com",
-    messagingSenderId: "1080785279411"
-};
-firebase.initializeApp(config);
+var config = {
+    apiKey: "AIzaSyCgcApoA4vkVQDDjRcvPDDoGwcqMCAQy7Q",
+    authDomain: "personal-manager-kit.firebaseapp.com",
+    databaseURL: "https://personal-manager-kit.firebaseio.com",
+    projectId: "personal-manager-kit",
+    storageBucket: "personal-manager-kit.appspot.com",
+    messagingSenderId: "576745055845"
+  };
+  firebase.initializeApp(config);
 
 // Initialize Cloud Firestore through Firebase
 let db = firebase.firestore();
 
-let baseDocument = db.collection("/personal-manager").doc('timesheet');
+let baseCollection = db.collection("/personal-manager/timesheet/dailydata");
 
 let plotData = {};
 
-baseDocument.get().then(renderGraphs);
+baseCollection.get().then(renderGraphs);
 
-function renderGraphs(doc) {
+function renderGraphs(docSnapshots) {
     let totalTasks = 0;
     let totalHours = 0;
-    jsonData = doc.data();
-    Object.keys(jsonData).forEach(function (dates, index) {
-        jsonData[dates].forEach(function (task, i) {
+
+    docSnapshots.forEach(function(doc){
+        let data = doc.data();
+        if(data !== null && data !== undefined && data['tasks'] !== null && data['tasks'] !== undefined)
+        data['tasks'].forEach(function (task, i) {
             if (plotData[task.Application] === undefined)
                 plotData[task.Application] = { 'count': 0, 'time': 0 };
             plotData[task.Application]['count']++;
@@ -31,7 +33,7 @@ function renderGraphs(doc) {
             plotData[task.Application]['time'] += parseFloat(task.Time_Hrs);
             totalHours += parseFloat(task.Time_Hrs);
         });
-    });
+    })
 
     let countPlot = [];
 

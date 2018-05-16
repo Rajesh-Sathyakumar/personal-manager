@@ -1,43 +1,47 @@
 // Initialize Firebase
-let config = {
-  apiKey: "AIzaSyCKSZ81yCPIE7Tn6PUZ6X93zgKThn5TmIs",
-  authDomain: "cogentec-personal.firebaseapp.com",
-  databaseURL: "https://cogentec-personal.firebaseio.com",
-  projectId: "cogentec-personal",
-  storageBucket: "cogentec-personal.appspot.com",
-  messagingSenderId: "1080785279411"
+var config = {
+  apiKey: "AIzaSyCgcApoA4vkVQDDjRcvPDDoGwcqMCAQy7Q",
+  authDomain: "personal-manager-kit.firebaseapp.com",
+  databaseURL: "https://personal-manager-kit.firebaseio.com",
+  projectId: "personal-manager-kit",
+  storageBucket: "personal-manager-kit.appspot.com",
+  messagingSenderId: "576745055845"
 };
 firebase.initializeApp(config);
 
 // Initialize Cloud Firestore through Firebase
 let db = firebase.firestore();
 
-let baseDocument = db.collection("/personal-manager").doc('timesheet');
+let baseCollection = db.collection("/personal-manager/timesheet/dailydata");
+
+
 
 $('#select-date').on('change', function () {
   let timesheetdata = [];
-
-  let operations = baseDocument
+  let date = $('#select-date').val();
+  let operations = baseCollection
+    .doc(date)
     .get().then(
       function (doc) {
-        let date = $('#select-date').val();
-        let timesheetdata = doc.data()[date];
-        if (timesheetdata !== undefined) {
-          let source = document.getElementById("timesheetdatatemplate").innerHTML;
-          let template = Handlebars.compile(source);
-          let html = template(timesheetdata);
-          $('#timesheetdata').html(html);
-         
-          $('.mdb-select').material_select('destroy');
-          $('.mdb-select').material_select();        
-
-          $('.deleteTimeSheet').on('click', deleteTimeSheet);
-        }
-        else {
-          timesheetTable.clear().draw();
+        let data = doc.data();
+        if(data !== undefined){
+          let timesheetdata = doc.data()['tasks'];
+          if (timesheetdata !== undefined) {
+            let source = document.getElementById("timesheetdatatemplate").innerHTML;
+            let template = Handlebars.compile(source);
+            let html = template(timesheetdata);
+            $('#timesheetdata').html(html);
+           
+            $('.mdb-select').material_select('destroy');
+            $('.mdb-select').material_select();        
+  
+            $('.deleteTimeSheet').on('click', deleteTimeSheet);
+          }
+          else {
+            timesheetTable.clear().draw();
+          }
         }
       });
-
 });
 
 let $input = $('.datepicker').pickadate({
@@ -106,7 +110,7 @@ $('#saveTimeSheet').on('click', function () {
     let row = value.getElementsByTagName('td');
 
     if ($('#timesheetdata').text().trim() !== "No Data to display") {
-      data[date] = [];
+      data['tasks'] = [];
       for (let i = 0; i < row.length; i++) {
         if(i === 1 || i === 3){
           let data = $(this).find('select').val();
@@ -118,13 +122,13 @@ $('#saveTimeSheet').on('click', function () {
             cur[heads[i]] = data;
         }
       }
-      data[date].push(cur);
+      data['tasks'].push(cur);
     } else {
-      data[date] = firebase.firestore.FieldValue.delete();
+      data['tasks'] = firebase.firestore.FieldValue.delete();
     }
-  });
 
-  baseDocument.update(data);
+  });
+  baseCollection.doc(date).update(data);
 });
 
 Handlebars.registerHelper('compare',function(a,b){
